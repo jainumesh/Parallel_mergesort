@@ -1,12 +1,11 @@
-#include<iostream>
-#include<string>
-#include<vector>
-#include<algorithm>
+#include <iostream>
+#include <fstream>
+#include <string>
+#include <vector>
+#include <algorithm>
 #include <memory>
 #include <chrono>
-#include<tbb/parallel_invoke.h>
-
-#define _PARALLEL_SORT_ 1
+#include <tbb/parallel_invoke.h>
 
 using namespace std;
 
@@ -176,9 +175,32 @@ my_unique(vector<shared_ptr<string>>::iterator begin,
     return ++result;
 }
 
+/* 
+    Read input file and store its contents in the passed string    
+*/
+void read_text (string& incoming, string filename) {
+
+    ifstream source (filename);
+    string line;
+
+    if(!source.is_open()){
+        cout<<"Error reading file"<<endl;
+        return;
+    }
+
+    while(getline(source, line)){
+        incoming.append(line);
+    }
+
+    source.close();
+
+    /* Unlike basic_string/c_string  STL string do not contain delimeter 
+    at the end, add one.*/
+    incoming.append("\r\n"); 
+}
 
 /* 
-    Read text input and store in the passed string    
+    Read text input from stdin and store in the passed string    
 */
 void read_text (string& incoming) {
 
@@ -210,25 +232,46 @@ void print_time_elapsed(chrono::time_point<chrono::system_clock> start,
     cout <<"elapsed time: " << elapsed_seconds.count() << "s\n";
 }
 
+void run(string filename) {
 
-int main(){
     string incoming;
     vector<shared_ptr<string>> split_words;
     chrono::time_point<chrono::system_clock> start, end;
 
-    read_text(incoming);
+    if(filename.empty()) {
+        read_text(incoming);
+    } else {
+        read_text(incoming, filename);
+    }
     
-    split_into_words(incoming, split_words);
+    if (incoming.empty()) {
+        cout<<"Failed to read input"<<endl;
+        return;
+    }
 
-    auto it = my_unique(split_words.begin(), split_words.end());
-    split_words.erase(it, split_words.end());
+    split_into_words(incoming, split_words);
 
     start = chrono::system_clock::now();
     mergesort(split_words);
     end = chrono::system_clock::now();
 
+    auto it = my_unique(split_words.begin(), split_words.end());
+    split_words.erase(it, split_words.end());
+
     print_words(split_words);
     print_time_elapsed(start, end);
-    cout<<split_words.size()<<endl;
+
+}
+
+int main(int argc, char *argv[]) {
+
+    if(argc == 1){
+        run("");
+    } else {
+        string filename(argv[1]);
+        
+        run("../test/" + filename);
+    }
+
     return 0;
 }

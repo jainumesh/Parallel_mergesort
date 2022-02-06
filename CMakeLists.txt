@@ -10,6 +10,7 @@ set(CMAKE_CXX_EXTENSIONS OFF)
 project(MergeSort CXX)
 
 include(common.cmake)
+add_definitions(-D_PARALLEL_SORT_)
 set_common_project_settings(tbb)
-add_executable (MergeSort "src/mergesort.cpp" "inc/mergesort.h") 
+add_executable (MergeSort "src/mergesort.cpp") 
 target_link_libraries(MergeSort  TBB::tbb Threads::Threads)

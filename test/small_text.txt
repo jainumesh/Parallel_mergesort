@@ -1,0 +1,67 @@
+CPP take-home coding exercise
+
+CPP take-home coding exercise
+Last Updated:
+4 days ago at 7:09 pm
+Prompt
+Create a parallel implementation of the merge sort algorithm described at https://www.geeksforgeeks.org/merge-sort/
+
+
+
+Requirements
+Input
+A stream of ascii characters on the standard input
+Number sequences, or combined sequences of letters and numbers and punctuation
+  shall be considered “words” for the purpose of this exercise.
+
+
+
+Processing
+The program shall split words on whitespace boundaries.
+Whitespace characters shall include\s, (space), \t (tab), \n (newline), 
+  \r\n (Windows “CR-LF” newline sequence).
+
+Words shall be stripped of leading and/or trailing punctuation
+Duplicate words shall be removed from the output
+
+
+Output
+A list of words on the standard output separated by newline (\n) characters.
+Standard error, (STDERR), may be used for debugging and error reporting.
+
+
+Implementation
+Program shall conform to the C++14 language standard
+The words being sorted shall not be copied after they have been split from the input stream.
+Program must compile with GCC (g++) version 10 or later.
+Program shall use CMake as its configuration tool and build file generator.
+Program must not depend on distribution -dev packages except for libc6-dev and libstdc++*-dev
+While the merge sort implementation must be the candidate’s own original work, the candidate may use
+  any C++ standard library or third-party libraries in the implementation including Boost, Abseil
+
+  Intel TBB, etc.
+
+Conan or 
+  CMake’s External Project module
+
+  may be used to integrate third party libraries into the project build.
+
+Third party libraries should be statically linked.  The sole exception to this requirement is
+  Intel TBB which cannot be statically linked to a project.
+
+
+
+Submission instructions
+Put the code in a git repo with instructions about running the program in a README.md
+Zip the entire git repo and share your fork with your Levo contact when complete
+
+
+Evaluation criteria
+Correct implementation of the requirements listed above
+Readability of the source code
+Efficient use of system resources
+Demonstrated understanding of the following C++ concepts
+Smart pointers
+STL containers
+Iterators
+Concurrent programming techniques and pitfalls
